@@ -1,3 +1,6 @@
 module.exports = {
-    user: require('./User')
+    user: require('./user'),
+    animal: require('./animal'),
+    post: require('./post'),
+    auth: require('./auth')
 }

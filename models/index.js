@@ -24,3 +24,11 @@ mongoose.connection.on('error', (err) => {
 const User = require('./User');
 exports.User = User;
 
+const Animal = require('./Animal');
+exports.Animal = Animal;
+
+const Description = require('./Description');
+exports.Description = Description;
+
+const Post = require('./Post');
+exports.Post - Post;

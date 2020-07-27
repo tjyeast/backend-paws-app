@@ -26,13 +26,54 @@ const verifyToken = (req, res, next) => {
     })
 }
 
-app.use('/user', routes.user)
+const isBusiness = (req, res, next) => {
+    User.findById(req.userId).exec((err, user) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+  
+      User.type.find(
+        {
+          _id: { $in: user.type }
+        },
+        (err, accountType) => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+  
+          for (let i = 0; i < accountType.length; i++) {
+            if (accountType[i].type === "business") {
+              next();
+              return;
+            }
+          }
+  
+          res.status(403).send({ message: "Requires a business account" });
+          return;
+        }
+      );
+    });
+  };
+
+
+app.use('/user', verifyToken, routes.user);
+app.use('/profile', verifyToken, routes.user);
+app.use('/auth', routes.auth);
+app.use('/animal', routes.animal);
+app.use('/animal/edit', verifyToken, isBusiness, routes.animal);
+app.use('/animal/create', verifyToken, isBusiness, routes.animal);
+app.use('/animal/delete', verifyToken, isBusiness, routes.animal);
+app.use('/post/edit', verifyToken, isBusiness, routes.post);
+app.use('/post/delete', verifyToken, isBusiness, routes.post);
+app.use('/post/create', verifyToken, isBusiness, routes.post);
+app.use('/post', routes.post);
 
 app.get('/', (req, res) => {
     res.send('Homepage');
 })
 
-app.use('/user', routes.user)
 
 app.listen(process.env.PORT, () => {
     console.log(`I am listening on port ${process.env.PORT}`);

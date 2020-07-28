@@ -2,6 +2,16 @@ const User = require('../models').User;
 const Description = require('../models').Description;
 const Animal = require('../models').Animal;
 
+const showAllUsers = (req, res)=>{
+	User.find({}, (err, foundUsers) => {
+		if(err){
+			return res.status(500).json(err);
+		}
+        res.status(200).json(foundUsers);
+        console.log(foundUsers)
+	})
+}
+
 
 const getProfile = (req, res) => {
     User.findById(req.params.id)
@@ -36,5 +46,6 @@ const editUser = (req, res) => {
 module.exports={
     getProfile,
     deleteUser,
-    editUser
+    editUser,
+    showAllUsers
 }

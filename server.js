@@ -13,17 +13,16 @@ app.use(bodyParser.json());
 const verifyToken = (req, res, next) => {
     let token = req.headers['authorization'];
     if(token){
-        token = token.substring(constants.BEARER_START_INDEX) //remove string Bearer from the token
+    
+        jwt.verify(token, process.env.JWT_SECRET, (err, decodedUser) => {
+            if(err || !decodedUser){
+                return res.status(500).send("unauthorized");
+            }
+            req.user = decodedUser;//set the decoded payload to req object as the user information(username, id)
+
+            next();// for cotrol to go to the next line of code
+        })
     }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, decodedUser) => {
-        if(err || !decodedUser){
-            return res.status(constants.UNAUTHORIZED).send(`ERROR: ${err}`);
-        }
-        req.user = decodedUser;//set the decoded payload to req object as the user information(username, id)
-
-        next();// for cotrol to go to the next line of code
-    })
 }
 
 const isBusiness = (req, res, next) => {
@@ -58,13 +57,11 @@ const isBusiness = (req, res, next) => {
   };
 
 
-app.use('/user', verifyToken, routes.user);
+app.use('/user', routes.user);
 app.use('/profile', verifyToken, routes.user);
 app.use('/auth', routes.auth);
 app.use('/animal', routes.animal);
-app.use('/animal/edit', verifyToken, isBusiness, routes.animal);
-app.use('/animal/create', verifyToken, isBusiness, routes.animal);
-app.use('/animal/delete', verifyToken, isBusiness, routes.animal);
+app.use('/animal', verifyToken, isBusiness, routes.animal);
 app.use('/post/edit', verifyToken, isBusiness, routes.post);
 app.use('/post/delete', verifyToken, isBusiness, routes.post);
 app.use('/post/create', verifyToken, isBusiness, routes.post);

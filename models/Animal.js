@@ -11,11 +11,6 @@ const animalSchema = mongoose.Schema({
     name: {type: String, required: true},
     type: [typeSchema],
     age: {type: String, required: true},
-    description: [{
-        type: mongoose.Schema.ObjectId,
-        required: true,
-        ref: 'Description'
-    }],
     user: [{
         type: mongoose.Schema.ObjectId,
         required: true,

@@ -11,15 +11,12 @@ const signup = (req, res) => {
         if(err){
             return res.status(500).json(err);
         }
-        res.status(200).json(newUser);
         console.log(newUser);
-    })
-    if(newUser => {
         const token = jwt.sign(
             {
                 username: newUser.username,
                 id: newUser._id,
-                accountType: newUser.accountType
+                accountType: newUser.accountType.type
             },
             process.env.JWT_SECRET,
             {
@@ -29,9 +26,8 @@ const signup = (req, res) => {
         res.status(200).json({
             "token" : token
         });
-        res.status(200).json(newUser)
     })
-    res.status(500).send("bad request")
+    
 }
 
 
@@ -53,7 +49,7 @@ const login = (req, res) => {
                         {
                             username: foundUser.username,
                             id: foundUser._id,
-                            accountType: foundUser.accountType
+                            accountType: foundUser.accountType.type
                         },
                         process.env.JWT_SECRET,
                         {

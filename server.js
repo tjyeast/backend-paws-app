@@ -3,11 +3,20 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const app = express();
 const routes = require('./routes');
 
+const corsOptions = {
+  origin: ['http://localhost:3000'],
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true, //allows session cookies to be sent back and forth
+  optionsSuccessStatus: 200 //legacy browsers
+}
+
 //middleware
+app.use(cors(corsOptions))
 app.use(bodyParser.json());
 
 const verifyToken = (req, res, next) => {
@@ -60,7 +69,7 @@ const isBusiness = (req, res, next) => {
 app.use('/user', routes.user);
 app.use('/profile', verifyToken, routes.user);
 app.use('/auth', routes.auth);
-app.use('/animal', routes.animal);
+app.use('/animal/all', routes.animal);
 app.use('/animal', verifyToken, isBusiness, routes.animal);
 app.use('/post/edit', verifyToken, isBusiness, routes.post);
 app.use('/post/delete', verifyToken, isBusiness, routes.post);

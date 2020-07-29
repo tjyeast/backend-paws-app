@@ -1,10 +1,23 @@
 require('dotenv').config();
 
 const User = require('../models').User;
-// const constants = require('../constants');
 
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const { genToken } = require('../services/authhelper');
+
+const buildAuthResponse = (user) => {
+    const userData = {
+      username: user.username,
+      id: user._id,
+    };
+  
+    const token = genToken(userData);
+  
+    return {
+      user: userData,
+      token,
+    };
+  };
 
 const signup = (req, res) => {
     User.create(req.body, (err, newUser) => {
@@ -12,22 +25,10 @@ const signup = (req, res) => {
             return res.status(500).json(err);
         }
         console.log(newUser);
-        const token = jwt.sign(
-            {
-                username: newUser.username,
-                id: newUser._id,
-                accountType: newUser.accountType.type
-            },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: "30 days"
-            }
-        )
-        res.status(200).json({
-            "token" : token
-        });
+        const respData = buildAuthResponse(newUser);
+
+        res.json(respData);
     })
-    
 }
 
 
@@ -45,20 +46,8 @@ const login = (req, res) => {
             bcrypt.compare(req.body.password, foundUser.password, (err, match) => {
                 if(match){
 
-                    const token = jwt.sign(
-                        {
-                            username: foundUser.username,
-                            id: foundUser._id,
-                            accountType: foundUser.accountType.type
-                        },
-                        process.env.JWT_SECRET,
-                        {
-                            expiresIn: "30 days"
-                        }
-                    )
-                    res.status(200).json({
-                        "token" : token
-                    });
+                    const respData = buildAuthResponse(foundUser);
+                    res.json(respData);
                 } else {
                     res.status(500).send(`ERROR: Incorrect Username/Password`);
                 }
@@ -73,17 +62,11 @@ const login = (req, res) => {
     })
 }
 
-// const verifyUser = (req, res) => {
-//     User.findById(req.params.id, {
-//         attributes: ['id']
-//     })
-//     .then(foundUser => {
-//         res.status(200).json(foundUser);
-//     })
-//     .catch(err => {
-//         res.status(500).json(err);
-//     }) 
-// }
+const verifyUser = (req, res) => {
+    const user = res.locals.user;
+    res.json(user);
+}
+
 
 const checkDuplicates = (req, res, next) => {
     User.findOne({
@@ -119,5 +102,7 @@ module.exports = {
     signup,
     login,
     checkDuplicates,
-    checkAccountType
+    checkAccountType,
+    verifyUser,
+    buildAuthResponse
 }

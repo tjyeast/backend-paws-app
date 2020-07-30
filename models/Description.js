@@ -6,6 +6,10 @@ const descriptionSchema = mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Animal'
     }],
+    user: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    }]
 });
 
 const Description = mongoose.model('Description', descriptionSchema);

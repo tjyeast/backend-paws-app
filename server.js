@@ -69,8 +69,8 @@ const isBusiness = (req, res, next) => {
 app.use('/user', routes.user);
 app.use('/profile', verifyToken, routes.user);
 app.use('/auth', routes.auth);
-app.use('/animal/all', routes.animal);
-app.use('/animal', verifyToken, isBusiness, routes.animal);
+app.use('/animal', routes.animal);
+// app.use('/animal', verifyToken, isBusiness, routes.animal);
 app.use('/post/edit', verifyToken, isBusiness, routes.post);
 app.use('/post/delete', verifyToken, isBusiness, routes.post);
 app.use('/post/create', verifyToken, isBusiness, routes.post);

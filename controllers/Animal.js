@@ -59,11 +59,31 @@ const findAnimalsByType = (req, res) => {
 	})
 }
 
+const findAnimalsByUser = (req, res) => {
+	Animal.find({"user" : req.params.id}, (err, foundUserAnimals) => {
+		if(err){
+			return res.status(500).json(err);
+		}
+		res.status(200).json(foundUserAnimals)
+	})
+}
+
+const findAnimalDescription = (req, res) => {
+	Description.find({"animal" : req.params.id}, (err, foundAnimalDescription) => {
+		if(err){
+			return res.status(500).json(err);
+		}
+		res.status(200).json(foundAnimalDescription)
+	})
+}
+
 module.exports = {
     createAnimal,
     showAnimal,
     showAllAnimals,
     deleteAnimal,
     editAnimal,
-    findAnimalsByType
+	findAnimalsByType,
+	findAnimalsByUser,
+	findAnimalDescription
 }

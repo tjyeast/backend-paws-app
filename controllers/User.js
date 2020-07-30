@@ -43,9 +43,19 @@ const editUser = (req, res) => {
 	});
 }
 
+const findUserDescription = (req, res) => {
+	Description.find({"user" : req.params.id}, (err, foundUserDescription) => {
+		if(err){
+			return res.status(500).json(err);
+		}
+		res.status(200).json(foundUserDescription)
+	})
+}
+
 module.exports={
     getProfile,
     deleteUser,
     editUser,
-    showAllUsers
+	showAllUsers,
+	findUserDescription
 }

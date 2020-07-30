@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-const accountTypeSchema = mongoose.Schema({
-    type: String,
-    enum: ['personal', 'business']
-})
+// const accountTypeSchema = mongoose.Schema({
+//     type: String,
+//     enum: ['personal', 'business']
+// })
 
 const userSchema = mongoose.Schema({
 	name: { type: String, required: true},
@@ -20,7 +20,10 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Description'
     }],
-    accountType: [accountTypeSchema],
+    accountType: {
+        type: String,
+        enum: ['personal', 'business']
+    },
     contact: String,
     address: String,
     hours: String,

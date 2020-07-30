@@ -7,8 +7,12 @@ const { genToken } = require('../services/authhelper');
 
 const buildAuthResponse = (user) => {
     const userData = {
+      name: user.name,
       username: user.username,
+      email: user.email,
+      type: user.type,
       id: user._id,
+
     };
   
     const token = genToken(userData);
@@ -20,6 +24,7 @@ const buildAuthResponse = (user) => {
   };
 
 const signup = (req, res) => {
+    req.body.accountType = req.body.type;
     User.create(req.body, (err, newUser) => {
         if(err){
             return res.status(500).json(err);

@@ -3,12 +3,12 @@ const User = require('../models').User;
 const Animal = require('../models').Animal;
 
 const createPost = (req, res) => {
-	Post.create(req.body, (err, createdPost) => {
-		if(err){
-			return res.status(500).json(err);
-		}
-		res.status(200).json(createdPost);
-	});
+    Post.create(req.body, (err, createdPost) => {
+        if(err){
+            return res.status(500).json(err);
+        }
+        res.status(200).json(createdPost);
+    })
 }
 
 const showPost = (req, res) => {

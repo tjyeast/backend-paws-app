@@ -31,4 +31,4 @@ const Description = require('./Description');
 exports.Description = Description;
 
 const Post = require('./Post');
-exports.Post - Post;
+exports.Post = Post;

@@ -52,10 +52,20 @@ const findUserDescription = (req, res) => {
 	})
 }
 
+const addUserDescription = (req, res) => {
+	Description.create(req.body, (err, newDescription) => {
+		if(err) {
+			return res.status(500).json(err);
+		}
+		res.status(200).json(newDescription);
+	})
+}
+
 module.exports={
     getProfile,
     deleteUser,
     editUser,
 	showAllUsers,
-	findUserDescription
+	findUserDescription,
+	addUserDescription
 }

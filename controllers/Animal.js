@@ -3,6 +3,8 @@ const User = require('../models').User;
 const Description = require('../models').Description;
 
 const createAnimal = (req, res) => {
+	console.log(res.locals.user);
+	req.body.user = res.locals.user.id
 	Animal.create(req.body, (err, createdAnimal) => {
 		if(err){
 			return res.status(500).json(err);

@@ -3,6 +3,7 @@ const User = require('../models').User;
 const Animal = require('../models').Animal;
 
 const createPost = (req, res) => {
+    req.body.user = res.locals.user.id
     Post.create(req.body, (err, createdPost) => {
         if(err){
             return res.status(500).json(err);
@@ -33,6 +34,7 @@ const showAllPosts = (req, res) => {
 }
 
 const deletePost = (req, res)=>{
+    req.body.user = res.locals.user.id
 	Post.findByIdAndRemove(req.params.id, (err, deletedPost) => {
 		if(err){
 			return res.status(500).json(err);
@@ -42,10 +44,12 @@ const deletePost = (req, res)=>{
 }
 
 const editPost = (req, res)=>{
+    req.body.user = res.locals.user.id
 	Post.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, updatedPost) => {
 		if(err){
 			return res.status(500).json(err);
-		}
+        }
+        console.log(updatedPost)
 		res.status(200).json(updatedPost);
 	});
 }

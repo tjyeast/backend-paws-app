@@ -73,41 +73,9 @@ const verifyUser = (req, res) => {
 }
 
 
-const checkDuplicates = (req, res, next) => {
-    User.findOne({
-        username: req.body.username
-    }).exec((err, user) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-        }
-        if (user) {
-            res.status(400).send({ message: "Username is already in use!"});
-            return;
-        }
-        next();
-    })
-}
-
-const checkAccountType = (req, res, next) => {
-    if (req.body.accountType) {
-        for (let i = 0; i < req.body.accountType.length; i++) {
-            if (!accountType.includes(req.body.accountType[i])) {
-                res.status(400).send({
-                    message: `Account type ${req.body.accountType[i]} does not exist!`
-                });
-                return;
-            }
-        }
-    }
-    next();
-}
-
 module.exports = {
     signup,
     login,
-    checkDuplicates,
-    checkAccountType,
     verifyUser,
     buildAuthResponse
 }

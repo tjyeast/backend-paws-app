@@ -35,6 +35,7 @@ const showAllAnimals = (req, res) => {
 }
 
 const deleteAnimal = (req, res)=>{
+	req.body.user = res.locals.user.id
 	Animal.findByIdAndRemove(req.params.id, (err, deletedAnimal) => {
 		if(err){
 			return res.status(500).json(err);
@@ -44,6 +45,7 @@ const deleteAnimal = (req, res)=>{
 }
 
 const editAnimal = (req, res)=>{
+	req.body.user = res.locals.user.id
 	Animal.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, updatedAnimal) => {
 		if(err){
 			return res.status(500).json(err);

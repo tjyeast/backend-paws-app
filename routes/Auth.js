@@ -5,8 +5,6 @@ const { restrict } = require('../services/authhelper');
 
 router.post('/signup', ctrl.auth.signup);
 router.post('/login', ctrl.auth.login);
-router.get('/signup', ctrl.auth.checkDuplicates);
-router.get('/login', ctrl.auth.checkAccountType);
 router.get('/verify', restrict,  ctrl.auth.verifyUser);
 
 module.exports = router;

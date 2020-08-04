@@ -30,7 +30,7 @@ const showAllPosts = (req, res) => {
             return res.status(500).json(err);
         }
         res.status(200).json(foundAllPosts);
-    })
+      })
 }
 
 const deletePost = (req, res)=>{
@@ -49,7 +49,6 @@ const editPost = (req, res)=>{
 		if(err){
 			return res.status(500).json(err);
         }
-        console.log(updatedPost)
 		res.status(200).json(updatedPost);
 	});
 }

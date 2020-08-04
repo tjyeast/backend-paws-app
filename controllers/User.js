@@ -8,7 +8,6 @@ const showAllUsers = (req, res)=>{
 			return res.status(500).json(err);
 		}
         res.status(200).json(foundUsers);
-        console.log(foundUsers)
 	})
 }
 

@@ -1,7 +1,4 @@
 const mongoose = require('mongoose');
-const typeSchema = mongoose.Schema({
-    type: {type: String, required: true}
-})
 
 const animalSchema = mongoose.Schema({
     image: {type: String, required: true},
@@ -9,7 +6,8 @@ const animalSchema = mongoose.Schema({
     image3: String,
     image4: String,
     name: {type: String, required: true},
-    type: [typeSchema],
+    type: String,
+    description: String,
     age: {type: String, required: true},
     user: [{
         type: mongoose.Schema.ObjectId,

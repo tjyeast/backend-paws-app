@@ -14,9 +14,9 @@ const buildAuthResponse = (user) => {
       id: user._id,
 
     };
-  
+
     const token = genToken(userData);
-  
+
     return {
       user: userData,
       token,
@@ -29,7 +29,6 @@ const signup = (req, res) => {
         if(err){
             return res.status(500).json(err);
         }
-        console.log(newUser);
         const respData = buildAuthResponse(newUser);
 
         res.json(respData);
@@ -37,7 +36,7 @@ const signup = (req, res) => {
 }
 
 
-        
+
 
 const login = (req, res) => {
     User.findOne({username: req.body.username}, (err, foundUser) => {
@@ -57,10 +56,10 @@ const login = (req, res) => {
                     res.status(500).send(`ERROR: Incorrect Username/Password`);
                 }
             })
-        }  
+        }
         else{
             res.status(500).send(`ERROR: Incorrect Username/Password`);
-        }    
+        }
     })
     .catch(err => {
         res.status(500).json(err);

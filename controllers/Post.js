@@ -24,11 +24,19 @@ const showPost = (req, res) => {
     })
 }
 
+// const showAllPosts = (req, res) => {
+//     Post.find({}, (err, foundAllPosts) => {
+//         if(err){
+//             return res.status(500).json(err);
+//         }
+//         res.status(200).json(foundAllPosts);
+//       })
+// }
+
 const showAllPosts = (req, res) => {
-    Post.find({}, (err, foundAllPosts) => {
-        if(err){
-            return res.status(500).json(err);
-        }
+  Post.find({}).sort({'_id': -1}).exec(function(err, foundAllPosts) {
+    if(err)
+      res.status(500).json(err);
         res.status(200).json(foundAllPosts);
       })
 }
